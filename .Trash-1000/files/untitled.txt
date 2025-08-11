@@ -1,0 +1,12 @@
+import joblib
+import os
+import numpy as np
+
+def model_fn(model_dir):
+    # Load model from SageMaker directory
+    return joblib.load(os.path.join(model_dir, "irrigation_model.joblib"))
+
+def predict_fn(input_data, model):
+    input_array = np.array(input_data["instances"])
+    prediction = model.predict(input_array)
+    return {"predictions": prediction.tolist()}
